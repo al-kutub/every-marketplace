@@ -8,22 +8,22 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
 **These requirements MUST be followed for every single task execution:**
 
-### 0. Feature Branch Isolation - AUTOMATIC CREATION (MANDATORY)
+### 0. Feature Branch Isolation - OPTIONAL (User Request Only)
 
-**The work command AUTOMATICALLY creates a feature branch before ANY work begins. This is NOT optional.**
+**Feature branch creation is OPTIONAL and only occurs if explicitly requested by the user.**
 
-- **BEFORE:** Develop branch is updated with latest code
-- **AUTOMATIC:** Feature branch created from develop with descriptive name
-- **AUTOMATIC:** Git worktree established for isolated development
-- **MANDATORY:** ALL work must occur within this isolated feature branch worktree
-- **ISOLATION:** No commits to develop during work - all changes isolated to feature branch
-- **REVIEWABILITY:** Feature branch allows clean, isolated PR for review and merge
+- **IF REQUESTED:** User explicitly asks to create a feature branch
+- **OPTIONAL:** Feature branch created from develop with descriptive name
+- **OPTIONAL:** Git worktree established for isolated development
+- **IF USING WORKTREE:** ALL work must occur within this isolated feature branch worktree
+- **ISOLATION:** When using a feature branch, no commits to develop during work - all changes isolated to feature branch
+- **DEFAULT:** If no feature branch is requested, work proceeds on the current branch
 
-**Non-Negotiable:**
-- Feature branch creation happens BEFORE Phase 1 begins
-- All subsequent work (tests, code, commits) occurs ONLY in the feature branch worktree
-- This ensures changes are properly isolated and easily reviewable
-- DO NOT skip feature branch creation - it is automatic and mandatory
+**Important:**
+- Feature branch creation ONLY happens when user explicitly requests it
+- If not requested, proceed with work on the current branch
+- All subsequent work (tests, code, commits) occurs on the designated branch
+- This provides flexibility for users to choose their preferred workflow
 
 ### 1. CSV Update on Start - DO NOT SKIP
 
@@ -61,7 +61,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
 ### ⚠️ CRITICAL ENFORCEMENT
 
-- **Feature branch creation:** Automatic, happens BEFORE all other work. Isolation and reviewability are core design requirements.
+- **Feature branch creation:** OPTIONAL - only if user explicitly requests it. When used, provides isolation and reviewability.
 - **CSV status on start:** If you skip this step, you have NOT started the task properly and must commit the CSV update immediately before proceeding.
 - **TDD-first:** Tests written and committed BEFORE implementation. No exceptions.
 - **CSV status on finish:** If you skip this step, task status is not tracked and dependencies may block other tasks incorrectly.
@@ -89,20 +89,20 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
 ## Execution Workflow
 
-### Phase 1: Automatic Environment Setup with Feature Branch Isolation
+### Phase 1: Environment Setup (Optional Feature Branch)
 
-**⚠️ This phase is AUTOMATIC. Feature branch creation and worktree setup happen before ANY task work begins.**
+**⚠️ This phase sets up the environment. Feature branch creation is OPTIONAL and only if user requests it.**
 
-1. **Update Develop Branch**
+1. **Update Current Branch**
 
    ```bash
-   git checkout develop
-   git pull origin develop
+   git checkout [current-branch]
+   git pull origin [current-branch]
    ```
 
-2. **AUTOMATIC: Create Feature Branch and Worktree for Isolation**
+2. **OPTIONAL: Create Feature Branch and Worktree (If Requested)**
 
-   **This MUST happen before proceeding to task work. It creates isolated development environment for all subsequent work.**
+   **Only proceed if user explicitly requests feature branch isolation.**
 
    - Determine appropriate branch name from document
    - Get the root directory of the Git repository:
@@ -137,7 +137,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
    cd "$git_root/.worktrees/feature-branch-name"
    ```
 
-   **KEY POINT:** All subsequent work (tests, code, commits) ONLY happens within this worktree directory. This ensures:
+   **KEY POINT:** If using worktree, all subsequent work (tests, code, commits) ONLY happens within this worktree directory. This ensures:
    - Changes are isolated from develop branch
    - Easy, clean PR submission with feature branch
    - No accidental commits to develop
