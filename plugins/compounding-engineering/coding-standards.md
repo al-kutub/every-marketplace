@@ -1972,6 +1972,63 @@ public class UsersController : ControllerBase
 
 ## Testing Standards
 
+### Testing Strategy Overview
+
+**Choose the right testing approach for each scenario:**
+
+**Unit Tests with MOQ (Mocking)**
+- Use MOQ (Moq) library for unit tests to mock dependencies
+- MOQ is ideal for testing business logic in isolation
+- Mock external dependencies: services, repositories, APIs, HTTP clients
+- Fast execution, no database required
+- Example use cases:
+  - Test service business logic without hitting database
+  - Test calculation and validation logic
+  - Test external API calls (mock the HTTP client)
+  - Test error handling paths
+- Coverage target: Core logic and edge cases
+
+**Integration Tests with In-Memory Database (CRITICAL)**
+- MUST use in-memory database for integration tests when testing data access layers
+- DO NOT use MOQ for database integration tests - must use actual in-memory DB
+- In-Memory DB (like EF Core's InMemory provider) tests full database integration:
+  - Entity Framework Core mappings and configurations
+  - Database constraints and relationships
+  - Transaction handling
+  - Query execution and filtering
+  - Cascade delete behaviors
+- Integration tests verify that database interactions work correctly end-to-end
+- Coverage target: All data access scenarios and entity relationships
+- Example use cases:
+  - Test repository methods that interact with DbContext
+  - Test complex LINQ queries
+  - Test entity relationships and constraints
+  - Test transaction behavior
+
+**Test Type Decision Matrix**
+```
+Unit Tests (MOQ) - Use these for:
+✓ Service business logic
+✓ Calculation logic
+✓ Validation logic
+✓ External API calls (mock the HTTP client)
+✓ Error handling paths
+✗ DO NOT use for database interactions
+
+Integration Tests (In-Memory DB) - Use these for:
+✓ Repository methods (data access)
+✓ Entity Framework configurations
+✓ Database constraints and relationships
+✓ Complex queries
+✓ Transaction behavior
+✓ Cascade delete and foreign keys
+✗ DO NOT use MOQ for DbContext testing
+```
+
+**Key Principle: Never mock the database - use in-memory DB for data access testing**
+
+---
+
 ### Unit Tests
 
 **Write comprehensive unit tests with proper assertions:**
@@ -2039,6 +2096,68 @@ public class UserServiceTests
     }
 }
 ```
+
+### Test Assertions with Enums
+
+**Always use enum values in test assertions, NEVER use string literals for enum properties:**
+
+```csharp
+✅ CORRECT
+[TestMethod]
+public async Task CreateUserAsync_SetsCorrectRole()
+{
+    // Arrange
+    var createRequest = new CreateUserRequest { Email = "test@example.com", Role = UserRoleEnum.Manager };
+
+    // Act
+    var result = await _userService.CreateUserAsync(createRequest);
+
+    // Assert
+    Assert.AreEqual(UserRoleEnum.Manager, result.Role);  // Use enum value
+    Assert.AreNotEqual(UserRoleEnum.Admin, result.Role);
+}
+
+[TestMethod]
+public async Task UpdateOrderAsync_UpdatesStatusCorrectly()
+{
+    // Arrange
+    var order = new Order { Id = 1, Status = OrderStatusEnum.Pending };
+
+    // Act
+    await _orderService.ProcessOrderAsync(order);
+
+    // Assert
+    var updated = await _orderRepository.GetByIdAsync(order.Id);
+    Assert.AreEqual(OrderStatusEnum.Processing, updated.Status);  // Use enum, not string
+    Assert.IsTrue(updated.Status == OrderStatusEnum.Processing);
+}
+
+❌ WRONG
+[TestMethod]
+public void CreateUser_SetsCorrectRole()
+{
+    var result = _userService.CreateUser("test@example.com");
+    Assert.AreEqual("Manager", result.Role);  // String literal - DON'T DO THIS
+    Assert.AreEqual("M", result.Gender);      // String literal - DON'T DO THIS
+}
+
+[TestMethod]
+public void UpdateOrder_UpdatesStatusCorrectly()
+{
+    var updated = _orderService.ProcessOrder(order);
+    Assert.AreEqual("processing", updated.Status);  // String - WRONG
+    Assert.AreEqual("pending", updated.PreviousStatus);  // String - WRONG
+}
+```
+
+**Why use enums in assertions:**
+- Type safety: Compile-time verification prevents typos
+- Refactoring safety: If enum values change, tests break loudly (good!)
+- Test clarity: Enum names are self-documenting
+- Consistency: Matches your production code which uses enums
+- Maintainability: Single source of truth for valid values
+
+---
 
 ### React Component Tests
 
