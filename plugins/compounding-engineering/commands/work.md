@@ -28,8 +28,8 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 ### 1. CSV Update on Start - DO NOT SKIP
 
 **IMMEDIATELY BEFORE starting ANY work on a task:**
-   - Update `docs/tasks.csv` status from `pending` → `in-progress`
-   - Commit: `Update: task [NUMBER] status to in-progress`
+   - Update `docs/tasks.csv` status from `pending` → `In-progress`
+   - Commit: `Update: task [NUMBER] status to In-progress`
    - NOTHING else happens until CSV is updated and committed
 
 ### 2. TDD First - DO NOT SKIP
@@ -52,7 +52,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
 ### Git Commits Required (IN ORDER)
 
-1. `Update: task [NUMBER] status to in-progress` ← FIRST COMMIT (before any other work)
+1. `Update: task [NUMBER] status to In-progress` ← FIRST COMMIT (before any other work)
 2. `Test: Add tests for task [NUMBER]` (after writing tests)
 3. `Feat/Fix: Implement task [NUMBER]` (implementation code)
 4. `Refactor: Clean up task [NUMBER]` (refactoring)
@@ -186,9 +186,9 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
 1. Open `docs/tasks.csv`
 2. Find the task row with matching number
-3. Change status from `pending` to `in-progress`
+3. Change status from `pending` to `In-progress`
 4. Save the file
-5. Commit with message: `Update: task [NUMBER] status to in-progress`
+5. Commit with message: `Update: task [NUMBER] status to In-progress`
 6. ONLY THEN begin writing tests or code
 
 **This must happen FIRST - before any other work.** If you skip this step, you have not properly started the task. No exceptions.
@@ -201,9 +201,9 @@ This command helps you analyze a work document (plan, Markdown file, specificati
    while (tasks remain):
      - Select next task (priority + dependencies)
 
-     ⚠️ CRITICAL: UPDATE CSV: Set task status to "in-progress"
+     ⚠️ CRITICAL: UPDATE CSV: Set task status to "In-progress"
         Parse docs/tasks.csv, find matching task by number
-        Update status column: "pending" → "in-progress"
+        Update status column: "pending" → "In-progress"
         COMMIT THIS CHANGE IMMEDIATELY
 
      - TDD Phase 1: WRITE TESTS FIRST
@@ -226,7 +226,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
      ⚠️ CRITICAL: UPDATE CSV: Set task status to "Completed"
         Parse docs/tasks.csv, find matching task by number
-        Update status column: "in-progress" → "Completed"
+        Update status column: "In-progress" → "Completed"
         COMMIT THIS CHANGE IMMEDIATELY
 
      - Update progress
@@ -270,9 +270,9 @@ This command helps you analyze a work document (plan, Markdown file, specificati
    Before starting a task:
    - [ ] Open `docs/tasks.csv`
    - [ ] Find task row matching task number
-   - [ ] Update `status` column: `pending` → `in-progress`
+   - [ ] Update `status` column: `pending` → `In-progress`
    - [ ] Save file
-   - [ ] Commit: `Update: task [NUMBER] status to in-progress`
+   - [ ] Commit: `Update: task [NUMBER] status to In-progress`
    - This ensures clear tracking of what's being worked on
 
    After completing a task:
@@ -327,7 +327,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
    - Should be done AFTER all intermediate commits (tests, implementation, refactor)
 
    **Commit Sequence for Each Task:**
-   1. `Update: task [NUMBER] status to in-progress` (start)
+   1. `Update: task [NUMBER] status to In-progress` (start)
    2. `Test: Add tests for task [NUMBER]` (test phase)
    3. `Feat/Fix: Implement task [NUMBER]` (implementation phase)
    4. `Refactor: Clean up task [NUMBER]` (refactor phase)
@@ -420,7 +420,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
    - Read `docs/tasks.csv`
    - Verify every task has `status: Completed`
-   - Confirm no `pending` or `in-progress` tasks remain
+   - Confirm no `pending` or `In-progress` tasks remain
    - Check all dependencies are satisfied
    - Validate task numbers match implementation plan structure
 
@@ -482,12 +482,12 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
    # Verify all tasks are Completed
    pending=$(grep -c "pending" docs/tasks.csv)
-   in_progress=$(grep -c "in-progress" docs/tasks.csv)
+   in_progress=$(grep -c "In-progress" docs/tasks.csv)
 
    if [ "$pending" -eq 0 ] && [ "$in_progress" -eq 0 ]; then
      echo "✅ All tasks marked as Completed"
    else
-     echo "❌ Found $pending pending and $in_progress in-progress tasks"
+     echo "❌ Found $pending pending and $in_progress In-progress tasks"
      exit 1
    fi
 
