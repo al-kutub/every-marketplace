@@ -39,8 +39,8 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 ### 3. CSV Update on Finish - DO NOT SKIP
 
 **IMMEDIATELY AFTER completing a task:**
-   - Update `docs/tasks.csv` status from `in-progress` → `done`
-   - Commit: `Update: task [NUMBER] status to done`
+   - Update `docs/tasks.csv` status from `In-progress` → `Completed`
+   - Commit: `Update: task [NUMBER] status to Completed`
 
 ### 4. Test Coverage - MANDATORY
 
@@ -48,7 +48,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
 ### 5. Zero Failures - MANDATORY
 
-**All tests must pass before marking task as done**
+**All tests must pass before marking task as Completed**
 
 ### Git Commits Required (IN ORDER)
 
@@ -56,7 +56,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 2. `Test: Add tests for task [NUMBER]` (after writing tests)
 3. `Feat/Fix: Implement task [NUMBER]` (implementation code)
 4. `Refactor: Clean up task [NUMBER]` (refactoring)
-5. `Update: task [NUMBER] status to done` (when finishing)
+5. `Update: task [NUMBER] status to Completed` (when finishing)
 6. `Task [NUMBER]: [TASK_TITLE]` (final completion commit - LOCAL ONLY)
 
 ### ⚠️ CRITICAL ENFORCEMENT
@@ -224,9 +224,9 @@ This command helps you analyze a work document (plan, Markdown file, specificati
      - Validate completion against acceptance criteria
      - Run full test suite to verify no regressions
 
-     ⚠️ CRITICAL: UPDATE CSV: Set task status to "done"
+     ⚠️ CRITICAL: UPDATE CSV: Set task status to "Completed"
         Parse docs/tasks.csv, find matching task by number
-        Update status column: "in-progress" → "done"
+        Update status column: "in-progress" → "Completed"
         COMMIT THIS CHANGE IMMEDIATELY
 
      - Update progress
@@ -280,9 +280,9 @@ This command helps you analyze a work document (plan, Markdown file, specificati
    - [ ] Verify all acceptance criteria met
    - [ ] Open `docs/tasks.csv`
    - [ ] Find task row matching task number
-   - [ ] Update `status` column: `in-progress` → `done`
+   - [ ] Update `status` column: `In-progress` → `Completed`
    - [ ] Save file
-   - [ ] Commit: `Update: task [NUMBER] status to done`
+   - [ ] Commit: `Update: task [NUMBER] status to Completed`
    - [ ] Verify task dependencies are resolved for dependent tasks
    - This creates clear separation between tasks in git history
 
@@ -302,7 +302,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
    - [ ] All acceptance criteria met
    - [ ] Code reviewed and refactored
    - [ ] Documentation updated
-   - [ ] CSV status set to "done"
+   - [ ] CSV status set to "Completed"
    - [ ] No linting or type errors
 
    Then create a final commit with this EXACT format:
@@ -331,7 +331,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
    2. `Test: Add tests for task [NUMBER]` (test phase)
    3. `Feat/Fix: Implement task [NUMBER]` (implementation phase)
    4. `Refactor: Clean up task [NUMBER]` (refactor phase)
-   5. `Update: task [NUMBER] status to done` (status update)
+   5. `Update: task [NUMBER] status to Completed` (status update)
    6. `Task [NUMBER]: [TASK_TITLE]` (final completion commit - LOCAL ONLY)
 
 5. **Code Quality Standards - ENUM USAGE**
@@ -409,7 +409,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
 1. **Final Validation**
 
-   - Verify all tasks completed in `docs/tasks.csv` (all rows have status "done")
+   - Verify all tasks completed in `docs/tasks.csv` (all rows have status "Completed")
    - Run comprehensive test suite
    - Execute final lint and typecheck
    - Check all deliverables present
@@ -419,7 +419,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 2. **CSV Completion Check**
 
    - Read `docs/tasks.csv`
-   - Verify every task has `status: done`
+   - Verify every task has `status: Completed`
    - Confirm no `pending` or `in-progress` tasks remain
    - Check all dependencies are satisfied
    - Validate task numbers match implementation plan structure
@@ -427,7 +427,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 3. **100% Completion Verification Checklist**
 
    **CSV Validation:**
-   - [ ] All rows in `docs/tasks.csv` have `status: done`
+   - [ ] All rows in `docs/tasks.csv` have `status: Completed`
    - [ ] Row count matches task count in implementation plan
    - [ ] Task numbers follow sequential pattern (1.1, 1.2, 2.1, 2.2, etc.)
    - [ ] No duplicate task numbers exist
@@ -480,12 +480,12 @@ This command helps you analyze a work document (plan, Markdown file, specificati
      exit 1
    fi
 
-   # Verify all tasks are done
+   # Verify all tasks are Completed
    pending=$(grep -c "pending" docs/tasks.csv)
    in_progress=$(grep -c "in-progress" docs/tasks.csv)
 
    if [ "$pending" -eq 0 ] && [ "$in_progress" -eq 0 ]; then
-     echo "✅ All tasks marked as done"
+     echo "✅ All tasks marked as Completed"
    else
      echo "❌ Found $pending pending and $in_progress in-progress tasks"
      exit 1
@@ -516,7 +516,7 @@ This command helps you analyze a work document (plan, Markdown file, specificati
 
 5. **Archive Completed Work**
 
-   - Keep `docs/tasks.csv` with all tasks marked "done" for historical reference
+   - Keep `docs/tasks.csv` with all tasks marked "Completed" for historical reference
    - Include in commit to maintain project history
    - Future work can reference completed tasks by number
 
@@ -532,7 +532,7 @@ WORK SESSION COMPLETE
 ═══════════════════════════════════════════════════════════════
 
 Tasks Completed: X/Y
-Current Status: Task [NUMBER] - [TITLE] (in-progress | done)
+Current Status: Task [NUMBER] - [TITLE] (In-progress | Completed)
 
 Description:
 [Extract task description from implementation-plan.md for this task]
@@ -566,7 +566,7 @@ Next task: /compounding-engineering:work All tasks complete - Ready for PR submi
 
 **How to Generate:**
 
-1. Complete current task(s) and update CSV status to "done"
+1. Complete current task(s) and update CSV status to "Completed"
 2. Read `docs/tasks.csv` to find next pending task
 3. Look up task number and title in `docs/implementation-plan.md`
 4. Format final line as: `Next task: /compounding-engineering:work Start with Task [NUMBER]: [TITLE]`
